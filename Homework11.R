@@ -82,6 +82,7 @@ head(read_csv("Keeley_ANCOVA_simulated_troutbog.csv"))
 # -> Has water color (browning) increased over time in Trout Bog Lake,
 # -> and does the rate of increase differ between the epilimnion and hypolimnion?
 
+
 # == Working with partner's data: Lonnie's Brook Trout Activity Data == #
 
 # from Lonnie: #In this simulated dataset, brook trout activity (movements/hr) declines as stream temperature increases. 
@@ -105,11 +106,30 @@ summary(full_model)
 
 # Reduced model without interaction
 no_interaction <- lm(activity ~ temp + group, data = lonnie_data)
+summary(no_interaction)
+
+# Plot the data and model fits
+ggplot(lonnie_data, aes(x = temp, y = activity, color = group)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
+  scale_color_manual(values = c("#1b9e77", "#d95f02")) +
+  labs(
+    title = "Brook Trout Activity vs. Stream Temperature",
+    subtitle = "Comparison of Streams With and Without Cold-Water Refugia",
+    x = "Stream Temperature (°C)",
+    y = "Brook Trout Activity (movements/hr)",
+    color = "Stream Type"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5)
+  )
+
 # Compare models using ANOVA
 anova(no_interaction, full_model)
 # -> If the interaction is significant (p < 0.05), it means the relationship between temperature and activity differs by group. 
 # -> If not significant, we would drop the interaction and use the simpler model.
-
 
 # Ecological Interpretation (2–3 sentences):
 # Brook trout activity declines as water temperature increases.
