@@ -2,7 +2,7 @@
 ### Homework 10 ###
 ##################
 
-# Group members: Keeley Kuru, Joseph Munoz
+# Group members: Keeley Kuru, Lonnie Parry, Joseph Munoz
 # Date: 11/13/25
 
 # ===== Exercise 1a: ANCOVA Simulation ===== #
@@ -82,37 +82,37 @@ head(read_csv("Keeley_ANCOVA_simulated_troutbog.csv"))
 # -> Has water color (browning) increased over time in Trout Bog Lake,
 # -> and does the rate of increase differ between the epilimnion and hypolimnion?
 
+# == Working with partner's data: Lonnie's Brook Trout Activity Data == #
 
-# ===== Exercise 2: Partner portion ===== #
+# from Lonnie: #In this simulated dataset, brook trout activity (movements/hr) declines as stream temperature increases. 
+#               Streams with cold-water refugia have higher baseline activity and a weaker decline in activity with increasing temperature compared to streams without refugia. 
+#               The ANCOVA model tests whether the slopes of activity–temperature relationships differ between the two stream types, 
+#               answering this ecological question: Do brook trout with cold-water refugia maintain higher activity levels as temperatures rise compared to those without refugia?
 
-# --- Libraries ---
+# Load tidyverse
 library(tidyverse)
 
-# --- 2a. Import dataset ---
-data <- read_csv("Keeley_ANCOVA_simulated_troutbog.csv")
+# Load the data your partner shared with you
+lonnie_data <- read.csv("brook_trout_activity.csv")
 
-# Quick check of data
-head(data)
-summary(data)
+# Inspect the data
+head(lonnie_data)
+str(lonnie_data)
 
-# Fit full model with interaction
-# (to test if the relationship between year and mean absorbance differs by depth zone)
-# Fits a linear model with mean_absorbance as the response (y-axis) and year (numeric), depth_zone (categorical), and their interaction as predictors (x-axes)
-full_model <- lm(mean_absorbance ~ year * depth_zone, data = data)
+# Full model with interaction
+full_model <- lm(activity ~ temp * group, data = lonnie_data)
 summary(full_model)
 
-# Fit reduced model without interaction 
-# (to test if interaction is significant)
-no_interaction <- lm(mean_absorbance ~ year + depth_zone, data = data)
-
-# Compare using ANOVA
+# Reduced model without interaction
+no_interaction <- lm(activity ~ temp + group, data = lonnie_data)
+# Compare models using ANOVA
 anova(no_interaction, full_model)
-# -> Since the interaction between year and depth_zone is significant, that means:
-# -> The relationship between year and mean absorbance (rate of browning) differs between the epilimnion and hypolimnion
-# --> If the p-value had been > 0.05, we would drop the interaction and stick with the simpler model.
-# --> But here, we keep the interaction in the final model.
+# -> If the interaction is significant (p < 0.05), it means the relationship between temperature and activity differs by group. 
+# -> If not significant, we would drop the interaction and use the simpler model.
 
-# --- 2b. Ecological Interpretation (2–3 sentences) ---
-# Mean absorbance (a proxy for water color) increased significantly from 1990 to 2020, indicating strong browning of Trout Bog.
-# The interaction between year and depth zone shows that browning trends differ by depth. 
-# The hypolimnion both started darker and browned faster than the epilimnion.
+
+# Ecological Interpretation (2–3 sentences):
+# Brook trout activity declines as water temperature increases.
+# Streams with cold-water refugia have higher baseline activity and a shallower decline in activity with rising temperatures 
+#  compared to streams without refugia. This suggests that cold-water refugia help brook trout maintain activity levels in warmer conditions.
+
