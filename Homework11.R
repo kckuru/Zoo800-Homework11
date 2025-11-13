@@ -115,7 +115,6 @@ ggplot(lonnie_data, aes(x = temp, y = activity, color = group)) +
   scale_color_manual(values = c("#1b9e77", "#d95f02")) +
   labs(
     title = "Brook Trout Activity vs. Stream Temperature",
-    subtitle = "Comparison of Streams With and Without Cold-Water Refugia",
     x = "Stream Temperature (°C)",
     y = "Brook Trout Activity (movements/hr)",
     color = "Stream Type"
