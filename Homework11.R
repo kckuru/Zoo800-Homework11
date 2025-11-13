@@ -93,7 +93,7 @@ head(read_csv("Keeley_ANCOVA_simulated_troutbog.csv"))
 # Load tidyverse
 library(tidyverse)
 
-# Load the data your partner shared with you
+# Load the data Lonnie shared
 lonnie_data <- read.csv("brook_trout_activity.csv")
 
 # Inspect the data
@@ -129,6 +129,7 @@ ggplot(lonnie_data, aes(x = temp, y = activity, color = group)) +
 anova(no_interaction, full_model)
 # -> If the interaction is significant (p < 0.05), it means the relationship between temperature and activity differs by group. 
 # -> If not significant, we would drop the interaction and use the simpler model.
+# -> In this case, we see that the interaction is significant, indicating that the slopes differ between groups.
 
 # Ecological Interpretation (2–3 sentences):
 # Brook trout activity declines as water temperature increases.
