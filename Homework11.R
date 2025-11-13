@@ -97,6 +97,7 @@ summary(data)
 
 # Fit full model with interaction
 # (to test if the relationship between year and mean absorbance differs by depth zone)
+# Fits a linear model with mean_absorbance as the response (y-axis) and year (numeric), depth_zone (categorical), and their interaction as predictors (x-axes)
 full_model <- lm(mean_absorbance ~ year * depth_zone, data = data)
 summary(full_model)
 
@@ -108,6 +109,8 @@ no_interaction <- lm(mean_absorbance ~ year + depth_zone, data = data)
 anova(no_interaction, full_model)
 # -> Since the interaction between year and depth_zone is significant, that means:
 # -> The relationship between year and mean absorbance (rate of browning) differs between the epilimnion and hypolimnion
+# --> If the p-value had been > 0.05, we would drop the interaction and stick with the simpler model.
+# --> But here, we keep the interaction in the final model.
 
 # --- 2b. Ecological Interpretation (2–3 sentences) ---
 # Mean absorbance (a proxy for water color) increased significantly from 1990 to 2020, indicating strong browning of Trout Bog.
